@@ -138,10 +138,14 @@ webSocketServer.on('connection', function(ws) {
               break;
 
           case 'create':
-              if(w.worldStart && playerId == mes.playerId)
-                  console.log(123)
-                  w.buyObject(mes.type,mes.player_id,mes.coord);
+              //if(w.worldStart && playerId == mes.playerId)
+                  w.buyObject(mes.type,playerId,mes.coord);
               break;
+
+          case 'sell':
+              w.sellObject(mes.objId, playerId);
+              break;
+
           case 'up':
               w.upLvl(mes);
               break;

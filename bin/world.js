@@ -100,18 +100,13 @@ function World(width, height){
         }
     };
 
-    me.sellObject = function(type, playerId, coord){
-        var coordinate=coord;
-        var config = findObjectInArray(me.gameConfig, 'type', type);
-        var player = findObjectInArray(me.players, 'id', playerId);
-        if ((config.block==false)&&(config.type!="PLACE")){
-            coordinate= thrones[playerId];
-        }
-        if( config && player && me.gameMap.checkPointToFree(coordinate,all_obj,config.block,type,playerId)){
-            if(player.gold >= config.price){
-                player.gold -= config.price;
-                me.createObject(type, playerId, coordinate, config);
-            }
+    me.sellObject = function(id, playerId){
+        var sellObject = findObjectInArray(all_obj, 'id', id);
+        if(sellObject.playerId == playerId){
+            var player = findObjectInArray(me.players, 'id', playerId);
+            var hpBonus = sellObject.hp/sellObject.maxHp;
+            player.gold += sellObject.price * 0.8 * hpBonus;
+            all_obj.splice(all_obj.indexOf(sellObject),1);
         }
     };
 
