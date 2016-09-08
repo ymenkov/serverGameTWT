@@ -62,7 +62,7 @@ function World(width, height){
             tow:2,
             place:2,
             wall:3,
-            gold:3000,
+            gold:6000,
         };
 
         me.players.push(new_player);
@@ -161,7 +161,7 @@ function World(width, height){
     }
 
     me.startWorld = function(){
-        if(!me.worldStart) randomBlocks(20);
+        if(!me.worldStart) randomBlocks(30);
 
         timerId = setInterval( worldInterval.bind(me), 100 );
         me.worldStart = true;
