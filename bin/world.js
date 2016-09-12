@@ -40,12 +40,8 @@ function World(width, height){
             }
         })
 
-        rez.push({
-            type: 'PLAYER',
-            gold: player.gold,
-            player_name: player.name,
-            player_id: player.id
-        });
+
+        rez.push(player);
 
         return rez;
     }
@@ -88,6 +84,9 @@ function World(width, height){
         var config = findObjectInArray(me.gameConfig, 'type', type);
         var player = findObjectInArray(me.players, 'id', playerId);
 
+        if( config.need && !all_obj.some(function(o){ return (o.playerId == playerId) && (o.type == config.need) }) )
+            return; //проверка на наличие необходимого обьекта
+
         if (config.block === true) {
 
             //Здание
@@ -112,9 +111,15 @@ function World(width, height){
         }
 
         function buyObj(){
-            if (player.gold >= config.price) {
-                player.gold -= config.price;
+            if( typeof config.price == 'object' ){
+                for(var res in config.price) if(player[res] < config.price[res]) return;
+                for(var res in config.price) player[res] -= config.price[res];
                 me.createObject(type, playerId, coordinate, config);
+            } else {
+                if (player.gold >= config.price) {
+                    player.gold -= config.price;
+                    me.createObject(type, playerId, coordinate, config);
+                }
             }
         }
     };

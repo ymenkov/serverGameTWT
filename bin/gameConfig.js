@@ -12,7 +12,7 @@ module.exports = [{
 	"block": true,
 	"spawnInterval": 30,
 	"spawnType":"ORK",
-	"passiveRes":[{type:"gold",amount:0.1}],
+	"passiveRes":[{type:"gold",amount:0.1}, {type:"stone",amount:1}],
 	"lvlInfo":[{"lvl": 1,"upgrade": "damage","step": 50,"maxLvl": 3,"price": 300},{"lvl": 1,"upgrade": "hp","step": 1000,"maxLvl": 5,"price": 300}]
 }, {
 	"type": "BANK",
@@ -53,7 +53,7 @@ module.exports = [{
 },{
 	"type": "ST",
 	"hp": 8000,
-	"price": 1000,
+	"price": { "gold": 1000, "stone": 100},
 	"moveTargets": false,
 	"attackTargets": ["ORK","HUNTER","TROLL", "WALLKILLER","KAMIKADZE","TOWER", "ST", "KTULHU", "WALL"],
 	"damage": 300,
@@ -96,6 +96,7 @@ module.exports = [{
 	"attackRadius": 0,
 	"block": true
 },{
+	"need": "spawnerHunter",
 	"type": "HUNTER",
 	"hp": 1000,
 	"price": 250,

@@ -155,7 +155,7 @@ module.exports = function (id, type, playerId, coordinate, config){
         if (!this.passiveRes){return;}
         for (var i=0;i<this.passiveRes.length;i++) {
             var player = findObjectInArray(world.players, 'id', this.playerId);
-            player[this.passiveRes[i].type] = player[this.passiveRes[i].type] + this.passiveRes[i].amount;
+            player[this.passiveRes[i].type] = (player[this.passiveRes[i].type] || 0) + this.passiveRes[i].amount;
         }
     }
 

@@ -300,12 +300,17 @@ function VIEW(){
 			}
 			switch (object.type){
 				case 'PLAYER':
-					var t = document.getElementById("Gold");
-					t.innerHTML = "Gold : "+Math.floor(object.gold);
 					var t = document.getElementById("player");
 					t.innerHTML = "Имя: "+object.player_name;
 					t.style.backgroundColor = generateColor(object.player_id);
 					player_id = object.player_id;
+
+					var t = document.getElementById("Gold");
+					t.innerHTML = "Gold : "+Math.floor(object.gold);
+
+					for(var param in object){
+						t.innerHTML += '<br>' + param + ' : ' + object[param];
+					}
 				break;
 
 				case 'WALL' :
