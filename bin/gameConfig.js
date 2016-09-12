@@ -26,6 +26,7 @@ module.exports = [{
 	"attackRadius": 0,
 	"block": true,
 	"passiveRes":[{type:"gold",amount:0.5}],
+	"placeType": 'GOLD',
 },{
 	"type": "ORK",
 	"hp": 1000,

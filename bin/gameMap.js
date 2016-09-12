@@ -79,7 +79,9 @@ function GameMap(width, height){
 
 	me.checkPlaceToBuy = function(coord, all_obj, player_id){
 		//Проверка что клетка не занята
-		if(all_obj.some(function(o){ return (o.coord[0] == coord[0] && o.coord[1] == coord[1]) && o.type == 'PLACE' }))
+		if(all_obj.some(function(o){
+				return (o.coord[0] == coord[0] && o.coord[1] == coord[1]) && (o.block || o.type == 'PLACE')
+			}))
 			return false;
 
 		//Проверка что новая территория прилегает к общей территории
@@ -93,14 +95,16 @@ function GameMap(width, height){
 		return false;
 	}
 
-	me.checkPointToCraft = function(coord, all_obj, playerId){
+	me.checkPointToCraft = function(coord, all_obj, playerId, placeT){
 		var objInPoint = all_obj.filter(function(o){
 			return (o.playerId == playerId) && (o.coord[0] == coord[0] && o.coord[1] == coord[1])
 			});
 		// Ни одного здания в этом месте и хотя бы один свой PLACE
 		var r = objInPoint.every(function(o){return !o.block}) && objInPoint.some(function(o){return o.type == 'PLACE'});
 		delete objInPoint;
-		return r;
+		return r && ( !placeT || all_obj.some(function(o){ // Ищем клетку с ресурсом, если это необходимо
+				return (o.type == placeT) && (o.coord[0] == coord[0] && o.coord[1] == coord[1])
+			}))
 	}	
 		
 }

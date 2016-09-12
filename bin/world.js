@@ -70,7 +70,7 @@ function World(width, height){
         this.buildCastle(thrones[new_player.id],new_player.id);
     };
 
-    this.buildCastle=function(coord,player_id){
+    this.buildCastle=function(coord,player_id){ //TODO: need refactoring
         for (var i=0;i<width;i++){
             for(var j=0;j<height;j++){
                 if ((Math.abs((i-coord[0]))<3)&&(Math.abs((j-coord[1])))<3){
@@ -83,7 +83,7 @@ function World(width, height){
         }
     }
 
-    me.buyObject = function(type, playerId, coord){
+    me.buyObject = function(type, playerId, coord, parentId){
         var coordinate=coord;
         var config = findObjectInArray(me.gameConfig, 'type', type);
         var player = findObjectInArray(me.players, 'id', playerId);
@@ -91,8 +91,8 @@ function World(width, height){
         if (config.block === true) {
 
             //Здание
-            if( config && player && me.gameMap.checkPointToCraft(coordinate, all_obj, playerId))
-                if(!config.block || me.gameMap.checkToFreePath(coordinate,all_obj))
+            if( config && player && me.gameMap.checkPointToCraft(coordinate, all_obj, playerId, config.placeType) )
+                if( me.gameMap.checkToFreePath(coordinate,all_obj) )
                     buyObj();
 
         } else {

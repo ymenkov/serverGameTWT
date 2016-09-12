@@ -314,22 +314,22 @@ function VIEW(){
 				break;
 
 				case 'PLACE' :
-					if (masM[object.coord[0]][object.coord[1]].style.backgroundColor!="black"){
+					var back = masM[object.coord[0]][object.coord[1]].style.backgroundColor;
+					if (back!="black" && back!='yellow'){
 						masM[object.coord[0]][object.coord[1]].style.backgroundColor = "rgb(128, 128, 128)";
-						masM[object.coord[0]][object.coord[1]].style.borderColor=generateColor(object.player_id);
 					}
-
+					masM[object.coord[0]][object.coord[1]].style.borderColor=generateColor(object.player_id);
 					break;
 
-				// case 'ROCK' :
-				// 	masM[object.coord[0]][object.coord[1]].style.backgroundColor="black";
-				// 	break;
-				// case 'GOLD' :
-				// 	masM[object.coord[0]][object.coord[1]].style.backgroundColor="yellow";
-				// 	break;
-				// case 'LAKE' :
-				// 	masM[object.coord[0]][object.coord[1]].style.backgroundColor="#42c7fa";
-				// 	break;
+				 case 'ROCK' :
+				 	masM[object.coord[0]][object.coord[1]].style.backgroundColor="black";
+				 	break;
+				 case 'GOLD' :
+				 	masM[object.coord[0]][object.coord[1]].style.backgroundColor="yellow";
+				 	break;
+				 case 'LAKE' :
+				 	masM[object.coord[0]][object.coord[1]].style.backgroundColor="#42c7fa";
+				 	break;
 
 				case 'CASTLE':
 					if(object.player_id == player_id) {
