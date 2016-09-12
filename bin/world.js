@@ -62,7 +62,7 @@ function World(width, height){
             tow:2,
             place:2,
             wall:3,
-            gold:6000,
+            gold:60000,
         };
 
         me.players.push(new_player);
@@ -87,15 +87,34 @@ function World(width, height){
         var coordinate=coord;
         var config = findObjectInArray(me.gameConfig, 'type', type);
         var player = findObjectInArray(me.players, 'id', playerId);
-        if ((config.block==false)&&(config.type!="PLACE")){
-           coordinate = thrones[playerId];
+
+        if (config.block === true) {
+
+            //Здание
+            if( config && player && me.gameMap.checkPointToCraft(coordinate, all_obj, playerId))
+                if(!config.block || me.gameMap.checkToFreePath(coordinate,all_obj))
+                    buyObj();
+
+        } else {
+            if( config.type == "PLACE" ){
+
+                //Территория
+                if(me.gameMap.checkPlaceToBuy(coordinate, all_obj, playerId))
+                    buyObj();
+
+            } else {
+
+                //Юнит
+                coordinate = thrones[playerId];
+                buyObj();
+
+            }
         }
-        if( config && player && me.gameMap.checkPointToFree(coordinate,all_obj,config.block,type,playerId)){
-            if(!config.block || me.gameMap.checkToFreePath(coordinate,all_obj)) {
-                if (player.gold >= config.price) {
-                    player.gold -= config.price;
-                    me.createObject(type, playerId, coordinate, config);
-                }
+
+        function buyObj(){
+            if (player.gold >= config.price) {
+                player.gold -= config.price;
+                me.createObject(type, playerId, coordinate, config);
             }
         }
     };

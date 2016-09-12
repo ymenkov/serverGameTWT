@@ -70,35 +70,37 @@ function GameMap(width, height){
 	}
 
 	me.searchPlace=function(i,j,player_id,all){
-		for (var k=0;k<=all.length-1;k++){
-		//	alert(all[k].playerId)
-			if ((all[k].type=="PLACE") && (all[k].coord[0]==i)&&(all[k].coord[1]==j)&&(all[k].playerId==player_id)){
-
+		for (var k=0; k<all.length; k++){
+			if ((all[k].type=="PLACE") && (all[k].coord[0]==i)&&(all[k].coord[1]==j)&&(all[k].playerId==player_id))
 				return true;
-			}
 		}
 		return false;
 	}
 
-	me.checkPointToFree = function(coord,all_obj,config_block,type,player_id){
-		var i = coord[0]; var j = coord[1];
-		if ((type=="PLACE")&&(((j>0)&&(me.searchPlace(i,j-1,player_id,all_obj)))||((i>0)&&(me.searchPlace(i-1,j,player_id,all_obj)))||((j<height-1)&&(me.searchPlace(i,j+1,player_id,all_obj)))||((i<width-1)&&(me.searchPlace(i+1,j,player_id,all_obj))))){
-			return true;
-		} else if (type=="PLACE") {
+	me.checkPlaceToBuy = function(coord, all_obj, player_id){
+		//Проверка что клетка не занята
+		if(all_obj.some(function(o){ return (o.coord[0] == coord[0] && o.coord[1] == coord[1]) && o.type == 'PLACE' }))
 			return false;
-		}
 
-		for (i=0;i<=all_obj.length-1;i++){
-			if ((all_obj[i].coord[0]==coord[0]) && (all_obj[i].coord[1]==coord[1])&&(all_obj[i].playerId==player_id)){
-				if((config_block==true) && (all_obj[i].type=="PLACE")){
-					return true;
-				}	//else {return false;}
-			} 	else if(config_block==false){
+		//Проверка что новая территория прилегает к общей территории
+		var i = coord[0], j = coord[1];
+		if( ( (j>0) && me.searchPlace(i,j-1,player_id,all_obj) ) ||
+			( (i>0) && me.searchPlace(i-1,j,player_id,all_obj) ) ||
+			( (j<height-1) && me.searchPlace(i,j+1,player_id,all_obj) ) ||
+			( (i<width-1) && me.searchPlace(i+1,j,player_id,all_obj) ) )
 				return true;
 
-				}
-			
-		}
+		return false;
+	}
+
+	me.checkPointToCraft = function(coord, all_obj, playerId){
+		var objInPoint = all_obj.filter(function(o){
+			return (o.playerId == playerId) && (o.coord[0] == coord[0] && o.coord[1] == coord[1])
+			});
+		// Ни одного здания в этом месте и хотя бы один свой PLACE
+		var r = objInPoint.every(function(o){return !o.block}) && objInPoint.some(function(o){return o.type == 'PLACE'});
+		delete objInPoint;
+		return r;
 	}	
 		
 }
