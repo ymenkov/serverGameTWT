@@ -127,7 +127,13 @@ function VIEW(){
 		'HEALMAN':'healman.png',
 		'spawnerHunter':"spawnerOrks.png",
 		'SW':"SW.jpg",
-		'KTULHU': "KTULHU.png"
+		'KTULHU': "KTULHU.png",
+
+		'ROCK': "ROCK.png",
+		'STONE': "STONE.png",
+		'LAKE': "LAKE.png",
+		'GOLD': "GOLD.png",
+		'FOREST': "FOREST.png"
 	};
 
 	var colors = [
@@ -315,9 +321,15 @@ function VIEW(){
 
 					break;
 
-				case 'BLOCK' :
-					masM[object.coord[0]][object.coord[1]].style.backgroundColor="black";
-				break;
+				// case 'ROCK' :
+				// 	masM[object.coord[0]][object.coord[1]].style.backgroundColor="black";
+				// 	break;
+				// case 'GOLD' :
+				// 	masM[object.coord[0]][object.coord[1]].style.backgroundColor="yellow";
+				// 	break;
+				// case 'LAKE' :
+				// 	masM[object.coord[0]][object.coord[1]].style.backgroundColor="#42c7fa";
+				// 	break;
 
 				case 'CASTLE':
 					if(object.player_id == player_id) {

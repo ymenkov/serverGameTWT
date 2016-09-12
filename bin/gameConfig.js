@@ -12,7 +12,7 @@ module.exports = [{
 	"block": true,
 	"spawnInterval": 30,
 	"spawnType":"ORK",
-	"passiveGold":[{type:"gold",amount:0.1}],
+	"passiveRes":[{type:"gold",amount:0.1}],
 	"lvlInfo":[{"lvl": 1,"upgrade": "damage","step": 50,"maxLvl": 3,"price": 300},{"lvl": 1,"upgrade": "hp","step": 1000,"maxLvl": 5,"price": 300}]
 }, {
 	"type": "BANK",
@@ -25,7 +25,7 @@ module.exports = [{
 	"attackSpeed": 0,
 	"attackRadius": 0,
 	"block": true,
-	"passiveGold":[{type:"gold",amount:0.5}],
+	"passiveRes":[{type:"gold",amount:0.5}],
 },{
 	"type": "ORK",
 	"hp": 1000,
@@ -116,18 +116,36 @@ module.exports = [{
 	"attackSpeed": 2,
 	"attackRadius": 2,
 	"block": false
-},{
-	"type": "BLOCK",
-	"hp": 10000,
-	"price": 0,
-	"moveTargets": false,
-	"attackTargets": false,
-	"damage": 0,
-	"moveSpeed": 0,
-	"attackSpeed": 0,
-	"attackRadius": 0,
-	"block": true
-},{
+},
+
+	{
+		"type": "ROCK",
+		"hp": 100000,
+		"block": true
+	},
+	{
+		"type": "LAKE",
+		"hp": 100000,
+		"block": true
+	},
+	{
+		"type": "FOREST",
+		"hp": 100000,
+		"block": true
+	},
+	{
+		"type": "GOLD",
+		"hp": 100000,
+		"block": false
+	},
+	{
+		"type": "STONE",
+		"hp": 100000,
+		"block": false
+	},
+
+
+	{
 	"type": "TROLL",
 	"hp": 10000,
 	"price": 500,

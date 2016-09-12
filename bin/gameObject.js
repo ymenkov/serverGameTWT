@@ -152,10 +152,10 @@ module.exports = function (id, type, playerId, coordinate, config){
     }
 
     this.craft=function(all_obj, gameMap, world){
-        if (!this.passiveGold){return;}
-        for (var i=0;i<this.passiveGold.length;i++) {
+        if (!this.passiveRes){return;}
+        for (var i=0;i<this.passiveRes.length;i++) {
             var player = findObjectInArray(world.players, 'id', this.playerId);
-            player[this.passiveGold[i].type] = player[this.passiveGold[i].type] + this.passiveGold[i].amount;
+            player[this.passiveRes[i].type] = player[this.passiveRes[i].type] + this.passiveRes[i].amount;
         }
     }
 
@@ -164,7 +164,7 @@ module.exports = function (id, type, playerId, coordinate, config){
     this.getAttackTarget = function(all_obj,attackTypes,radius,targetNumb,coord){
         var gameObj = this;
 
-        if(!attackTypes.indexOf)return [];
+        if(!attackTypes || !attackTypes.indexOf)return [];
 
         targets = all_obj.filter(function(target){
             return ~attackTypes.indexOf(target.type);

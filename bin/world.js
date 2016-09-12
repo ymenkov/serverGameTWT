@@ -113,7 +113,8 @@ function World(width, height){
     me.createObject = function(type, playerId, coordinate, conf){
         var config = conf || findObjectInArray(me.gameConfig, 'type', type);
         if(config){
-            var new_obj = all_obj.push(new gameObject(++id, type, playerId, coordinate, config));
+            var new_obj = new gameObject(++id, type, playerId, coordinate, config);
+            all_obj.push(new_obj);
             return new_obj;
         }
         return false;
@@ -138,30 +139,48 @@ function World(width, height){
     }
 
 
-    function randomBlocks(num){
-        var all_castle = findObjectsInArray(all_obj, 'type', 'CASTLE');
-        var all_place = findObjectsInArray(all_obj, 'type', 'PLACE');
-        var block_array = [];
-        var i = 0,
-            wL = height- 1,
-            hL = width-1;
+    function randomBlocks(num, type, xx, yy, all_types){
+        var all_blocks = findObjectsInArray(all_obj, 'type', all_types );
+        var i = 0;
         while (i<num) {
-            var x = (Math.random()*wL).toFixed(0);
-            var y = (Math.random()*hL).toFixed(0);
-
-            if(all_castle.every(function (cc){ return cc.coord[0]!==y && cc.coord[1]!=x }))
-                if(all_place.every(function (cc){ return cc.coord[0]!==y && cc.coord[1]!=x })) {
-                    if(~!block_array.indexOf(''+x+''+y)) {
-                        block_array.push('' + x + '' + y);
-                        me.createObject("BLOCK", 999, [y, x]);
-                        i++;
-                    } else console.log('repeat');
+            xx[0] = parseInt(xx[0]);
+            xx[1] = parseInt(xx[1]);
+            var x = parseInt( 1*xx[0] + (Math.random()*xx[1]) ).toFixed(0);
+            var y = parseInt( 1*yy[0] + (Math.random()*yy[1]) ).toFixed(0);
+            if( !all_blocks.some(function (cc){ return (cc.coord[0]==y && cc.coord[1]==x) }) ) {
+                var obj = me.createObject(type, 999, [y, x]);
+                if(obj) {
+                    all_blocks.push(obj);
+                    i++;
                 }
+            } console.log('repeat');
         }
     }
 
     me.startWorld = function(){
-        if(!me.worldStart) randomBlocks(30);
+        if(!me.worldStart) {
+            var all_types = ['CASTLE', 'PLACE', 'GOLD', 'STONE', 'ROCK', 'LAKE', 'FOREST'];
+            var half_x = (height-1)/2;
+            var half_y = (width-1)/2;
+            var fourth_1 = [ [0, half_x], [0, half_y] ],
+                fourth_2 = [ [half_x+1, half_x], [0, half_y] ],
+                fourth_3 = [ [0, half_x], [half_y+1, half_y] ],
+                fourth_4 = [ [half_x+1, half_x], [half_y+1, half_y] ];
+
+            randomBlocks(10, 'ROCK', [0, height-1], [0, width-1], all_types);
+            randomBlocks(10, 'FOREST', [0, height-1], [0, width-1], all_types);
+            randomBlocks(10, 'LAKE', [0, height-1], [0, width-1], all_types);
+
+            function evenly(type, num) {
+                randomBlocks(num, type, fourth_1[0], fourth_1[1], all_types);
+                randomBlocks(num, type, fourth_2[0], fourth_2[1], all_types);
+                randomBlocks(num, type, fourth_3[0], fourth_3[1], all_types);
+                randomBlocks(num, type, fourth_4[0], fourth_4[1], all_types);
+            }
+
+            evenly('GOLD', 2);
+            evenly('STONE', 2);
+        }
 
         timerId = setInterval( worldInterval.bind(me), 100 );
         me.worldStart = true;
@@ -181,7 +200,7 @@ function World(width, height){
             player.gold-=number.price;
             number.lvl=number.lvl+1;
 
-            if (mes.upgrade=="hp"){object["maxHp"]=object["maxHp"]+number.step;} //говноКод
+            if (mes.upgrade=="hp"){object["maxHp"]=object["maxHp"]+number.step;} //TODO: need refactoring
 
             object[mes.upgrade]=object[mes.upgrade]+number.step;
             console.log(object.id)
@@ -199,10 +218,11 @@ function World(width, height){
         return false;
     }
 
-    function findObjectsInArray(array, param, value){
+    function findObjectsInArray(array, param, values){
         var reaz = [];
+        values = values.push ? values: [values];
         for(var i=0; i<array.length; i++)
-            if(array[i][param]==value)
+            if( ~values.indexOf(array[i][param]) )
                 reaz.push(array[i]);
         return reaz;
     }
