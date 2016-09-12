@@ -38,7 +38,22 @@ socket.onmessage = function(event) {
 	var kappaMes = JSON.parse(event.data);
     //
 	 if (kappaMes.type=="EVENT"){
-	 	alert(kappaMes.info);
+	 	//alert(kappaMes.info);
+		 var mess = document.createElement('div');
+		 mess.style.width = '200px';
+		 mess.style.height = '80px';
+		 mess.style.position = 'absolute';
+		 mess.style.zIndex = '9999999999999';
+		 mess.style.backgroundColor = 'white';
+		 mess.style.color = 'red';
+		 mess.style.top = '5%';
+		 mess.style.left = '35%';
+		 mess.innerHTML = kappaMes.info;
+
+		 document.body.appendChild(mess);
+		 setTimeout(function(){
+			document.body.removeChild(mess);
+		 }, 800);
 		 return;
 	}
 	if ((kappaMes.type)&&(kappaMes.type=="INFO")){

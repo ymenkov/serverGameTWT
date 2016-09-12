@@ -85,41 +85,46 @@ function World(width, height){
         var player = findObjectInArray(me.players, 'id', playerId);
 
         if( config.need && !all_obj.some(function(o){ return (o.playerId == playerId) && (o.type == config.need) }) )
-            return; //проверка на наличие необходимого обьекта
+            return 'Необходимо построить ' + config.need; //проверка на наличие необходимого обьекта
 
         if (config.block === true) {
 
             //Здание
-            if( config && player && me.gameMap.checkPointToCraft(coordinate, all_obj, playerId, config.placeType) )
-                if( me.gameMap.checkToFreePath(coordinate,all_obj) )
-                    buyObj();
+            if (config && player && me.gameMap.checkPointToCraft(coordinate, all_obj, playerId, config.placeType))
+                if (me.gameMap.checkToFreePath(coordinate, all_obj)) {
+                    return buyObj();
+                }
+            return 'Неправильно выбрано место';
 
         } else {
             if( config.type == "PLACE" ){
 
                 //Территория
                 if(me.gameMap.checkPlaceToBuy(coordinate, all_obj, playerId))
-                    buyObj();
+                    return buyObj();
+                else
+                    return 'Неправильно выбрано место';
 
             } else {
 
                 //Юнит
                 coordinate = thrones[playerId];
-                buyObj();
+                return buyObj();
 
             }
         }
 
         function buyObj(){
             if( typeof config.price == 'object' ){
-                for(var res in config.price) if(player[res] < config.price[res]) return;
+                for(var res in config.price) if(player[res] < config.price[res]) return 'Недостаточно ресурсов';
                 for(var res in config.price) player[res] -= config.price[res];
-                me.createObject(type, playerId, coordinate, config);
+                return me.createObject(type, playerId, coordinate, config);
             } else {
                 if (player.gold >= config.price) {
                     player.gold -= config.price;
-                    me.createObject(type, playerId, coordinate, config);
-                }
+                    return me.createObject(type, playerId, coordinate, config);
+                } else
+                    return 'Недостаточно ресурсов';
             }
         }
     };
@@ -141,7 +146,7 @@ function World(width, height){
             all_obj.push(new_obj);
             return new_obj;
         }
-        return false;
+        return 'Ошибка создания обьекта';
     };
 
     function worldInterval(){

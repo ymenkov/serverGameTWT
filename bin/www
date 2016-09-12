@@ -129,17 +129,18 @@ webSocketServer.on('connection', function(ws) {
       console.log(mes)
       switch(mes.make){
           case 'start':
-              if(playerId === 0)
-                w.startWorld();
-
-                    for (var i=0;i<=clients.length-1;i++){
-                    clients[i].ws.send(JSON.stringify({type:"EVENT",info:"Игра начала / ускорилась"}));
-                    }
+              if(playerId === 0) {
+                  w.startWorld();
+                  for (var i = 0; i <= clients.length - 1; i++)
+                      clients[i].ws.send(JSON.stringify({type: "EVENT", info: "Игра начала / ускорилась"}));
+              }
               break;
 
           case 'create':
               //if(w.worldStart && playerId == mes.playerId)
-                  w.buyObject(mes.type,playerId,mes.coord);
+              var info = w.buyObject(mes.type,playerId,mes.coord);
+              if( (typeof info) == 'string' )
+                ws.send(JSON.stringify({type: "EVENT", info: info}));
               break;
 
           case 'sell':
