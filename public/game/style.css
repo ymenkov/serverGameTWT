@@ -102,8 +102,6 @@ div.game-object img{
 }
 
 #player {
-	 position: absolute;
-	 bottom:17%;
 	 left:10px;
 	 display:inline-block;
 	 padding: 10px;

@@ -55,9 +55,9 @@ function World(width, height){
             id: player_id,
             name: name,
             coord:thrones[player_id],
-            tow:2,
-            place:2,
-            wall:3,
+            // tow:2,
+            // place:2,
+            // wall:3,
             gold:60000,
         };
 

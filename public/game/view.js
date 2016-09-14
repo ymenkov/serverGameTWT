@@ -77,7 +77,7 @@ function priceObjects(config){
 			// 	element.value="Купить территорию за "+config[i].price;
 			// 	break;
 			default:
-				if (config[i].price!==0) {
+				if (config[i].price!==0 && config[i].price!==undefined) {
 					var element = document.getElementById("controller");
 					var element2 = document.createElement("input");
 					element2.value = config[i].type+" за "+ config[i].price;
@@ -316,9 +316,9 @@ function VIEW(){
 			switch (object.type){
 				case 'PLAYER':
 					var t = document.getElementById("player");
-					t.innerHTML = "Имя: "+object.player_name;
-					t.style.backgroundColor = generateColor(object.player_id);
-					player_id = object.player_id;
+					t.innerHTML = "Имя: "+object.name;
+					t.style.backgroundColor = generateColor(object.id);
+					player_id = object.id;
 
 					var t = document.getElementById("Gold");
 					t.innerHTML = "Gold : "+Math.floor(object.gold);
