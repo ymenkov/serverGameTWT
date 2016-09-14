@@ -183,3 +183,10 @@ select {
 	left:500px;
 	width:200px;
 }
+
+#player-container {
+	width: 200px;
+	height: 300px;
+	background-color: wheat;
+	right: 0;
+}
